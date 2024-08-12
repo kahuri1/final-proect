@@ -11,3 +11,7 @@ type Task struct {
 const (
 	TimeFormat = "20060102"
 )
+
+type TasksResp struct {
+	Tasks []Task `json:"tasks"`
+}

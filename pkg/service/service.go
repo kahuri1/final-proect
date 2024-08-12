@@ -7,6 +7,7 @@ import (
 
 type repo interface {
 	CreateDbTask(task model.Task) (int64, error)
+	GetTasks(search string) (model.TasksResp, error)
 }
 
 type Service struct {

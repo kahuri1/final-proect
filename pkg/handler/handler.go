@@ -8,6 +8,7 @@ import (
 
 type todoService interface {
 	CreateTask(t model.Task) (int64, error)
+	GetTasks(search string) (model.TasksResp, error)
 }
 
 type Handler struct {
@@ -24,9 +25,10 @@ func (h *Handler) InitRoutes() *gin.Engine {
 	router := gin.New()
 
 	router.GET("/api/nextdate", h.NextDateHandler)
+	router.GET("/api/tasks", h.GetTasks)
 	taskGroup := router.Group("/api/task")
 	{
-		taskGroup.POST("/", h.CreateTask)
+		taskGroup.POST("", h.CreateTask)
 	}
 	// Обработка статических файлов
 	router.Static("/js", webDir+"/js")                       // Обслуживание JS файлов
