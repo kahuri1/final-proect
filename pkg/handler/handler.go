@@ -9,6 +9,10 @@ import (
 type todoService interface {
 	CreateTask(t model.Task) (int64, error)
 	GetTasks(search string) (model.TasksResp, error)
+	GetTaskById(id int) (*model.Task, error)
+	UpdateTask(task *model.Task) (bool, error)
+	TaskDone(task *model.Task) (bool, error)
+	DeleteTask(id int) error
 }
 
 type Handler struct {
@@ -29,12 +33,17 @@ func (h *Handler) InitRoutes() *gin.Engine {
 	taskGroup := router.Group("/api/task")
 	{
 		taskGroup.POST("", h.CreateTask)
+		taskGroup.GET("", h.GetTaskID)
+		taskGroup.PUT("", h.UpdateTask)
+		taskGroup.POST("/done", h.TaskDone)
+		taskGroup.DELETE("", h.DeleteTask)
 	}
 	// Обработка статических файлов
 	router.Static("/js", webDir+"/js")                       // Обслуживание JS файлов
 	router.Static("/css", webDir+"/css")                     // Обслуживание CSS файлов
-	router.StaticFile("/favicon.ico", webDir+"/favicon.ico") // Обслуживание favicon.ico
-	router.StaticFile("/", webDir+"/index.html")             // Обслуживание index.html по корневому пути
-
+	router.StaticFile("/favicon.ico", webDir+"/favicon.ico") // Обслуживание index.html по корневому пути
+	router.NoRoute(func(c *gin.Context) {
+		c.File(webDir + "/index.html")
+	})
 	return router
 }

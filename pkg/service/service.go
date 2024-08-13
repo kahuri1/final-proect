@@ -8,6 +8,10 @@ import (
 type repo interface {
 	CreateDbTask(task model.Task) (int64, error)
 	GetTasks(search string) (model.TasksResp, error)
+	GetTaskById(id int) (*model.Task, error)
+	UpdateTask(task *model.Task) (bool, error)
+	TaskDone(task model.Task) (bool, error)
+	DeleteTask(id int) error
 }
 
 type Service struct {

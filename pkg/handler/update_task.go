@@ -11,15 +11,13 @@ import (
 	"time"
 )
 
-func (h *Handler) CreateTask(c *gin.Context) {
-
+func (h *Handler) UpdateTask(c *gin.Context) {
 	var task model.Task
 	d, err := c.GetRawData()
 
 	err = json.Unmarshal(d, &task)
 	if err != nil {
 		log.Errorf("unmarshal handlerError")
-
 		return
 	}
 	dateTaskMow := time.Now().Format(model.TimeFormat)
@@ -34,7 +32,7 @@ func (h *Handler) CreateTask(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
-	id, err := h.service.CreateTask(task)
+	id, err := h.service.UpdateTask(&task)
 	if err != nil {
 		log.Printf("Failed to create task: %v", err)
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
@@ -42,24 +40,4 @@ func (h *Handler) CreateTask(c *gin.Context) {
 	}
 	c.JSON(http.StatusOK, gin.H{"id": fmt.Sprintf("%d", id)})
 	log.Info("message created")
-}
-
-func CheckRequest(task *model.Task, dateTaskNow string) error {
-	if task.Title == "" {
-		return fmt.Errorf("title is empty")
-	}
-	if task.Date == "" {
-		task.Date = dateTaskNow
-		return nil
-	}
-
-	_, err := time.Parse(model.TimeFormat, task.Date)
-	if err != nil {
-		return fmt.Errorf("date is invalid")
-	}
-	if task.Date < dateTaskNow && task.Repeat == "" {
-		task.Date = dateTaskNow
-	}
-
-	return nil
 }
