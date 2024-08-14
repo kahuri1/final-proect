@@ -6,7 +6,7 @@ import (
 )
 
 func (s *Service) TaskDone(task *model.Task) (bool, error) {
-	_, err := s.repo.TaskDone(*task)
+	_, err := s.repo.TaskDone(task)
 	if err != nil {
 		log.Errorf("failed to done task: %w", err)
 		return false, err

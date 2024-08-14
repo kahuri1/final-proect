@@ -36,6 +36,7 @@ func (h *Handler) InitRoutes() *gin.Engine {
 		taskGroup.GET("", h.GetTaskID)
 		taskGroup.PUT("", h.UpdateTask)
 		taskGroup.POST("/done", h.TaskDone)
+		taskGroup.DELETE("/done/", h.DeleteTask)
 		taskGroup.DELETE("", h.DeleteTask)
 	}
 	//Обработка статических файлов

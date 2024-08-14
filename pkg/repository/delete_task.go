@@ -15,5 +15,8 @@ func (r *Repository) DeleteTask(id int) error {
 	}
 
 	_, err = r.db.Exec(sql, args...)
-	return err
+	if err != nil {
+		return err
+	}
+	return nil
 }

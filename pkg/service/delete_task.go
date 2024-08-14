@@ -10,5 +10,5 @@ func (s *Service) DeleteTask(id int) error {
 	if err != nil {
 		log.Errorf("failed delete task: %w", err)
 	}
-	return err
+	return nil
 }

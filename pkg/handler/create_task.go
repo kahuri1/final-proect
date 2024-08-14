@@ -29,7 +29,7 @@ func (h *Handler) CreateTask(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
-	if task.Repeat == "" {
+	if task.Repeat == "" || task.Date == dateTaskMow {
 		task.Date = dateTaskMow
 	} else {
 		task.Date, err = usecase.NextDate(time.Now(), task.Date, task.Repeat)
@@ -46,7 +46,6 @@ func (h *Handler) CreateTask(c *gin.Context) {
 		return
 	}
 	c.JSON(http.StatusOK, gin.H{"id": id})
-	log.Info("message created")
 
 }
 

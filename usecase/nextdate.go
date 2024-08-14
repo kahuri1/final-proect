@@ -30,6 +30,7 @@ func NextDate(now time.Time, dateStr, repeat string) (string, error) {
 	if err != nil {
 		return "", nil
 	}
+
 	repeatString := strings.Split(repeat, " ")
 	switch strings.ToLower(repeatString[0]) {
 	case "d":
