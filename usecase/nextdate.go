@@ -23,12 +23,12 @@ const (
 
 func NextDate(now time.Time, dateStr, repeat string) (string, error) {
 
-	if repeat == "" || len(repeat) == 0 {
-		return now.Format(dateFormat), nil
+	if repeat == "" {
+		return "", fmt.Errorf("repeat is required")
 	}
 	date, err := time.Parse(dateFormat, dateStr)
 	if err != nil {
-		return now.Format(dateFormat), nil
+		return "", nil
 	}
 	repeatString := strings.Split(repeat, " ")
 	switch strings.ToLower(repeatString[0]) {

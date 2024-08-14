@@ -38,7 +38,7 @@ func (h *Handler) InitRoutes() *gin.Engine {
 		taskGroup.POST("/done", h.TaskDone)
 		taskGroup.DELETE("", h.DeleteTask)
 	}
-	// Обработка статических файлов
+	//Обработка статических файлов
 	router.Static("/js", webDir+"/js")                       // Обслуживание JS файлов
 	router.Static("/css", webDir+"/css")                     // Обслуживание CSS файлов
 	router.StaticFile("/favicon.ico", webDir+"/favicon.ico") // Обслуживание index.html по корневому пути
