@@ -72,7 +72,7 @@ func nextDayValue(num string) (int, error) {
 	if err != nil {
 		return 0, err
 	}
-	if days < 0 || days >= 400 {
+	if days >= 400 || days < 0 {
 		return 0, fmt.Errorf("invalid value %d", days)
 	}
 	return days, nil
