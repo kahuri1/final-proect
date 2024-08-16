@@ -12,7 +12,6 @@ func (s *Service) CreateTask(t model.Task) (int64, error) {
 		log.Errorf("failed to create message: %w", err)
 	}
 
-	log.Infof("message with id %d created", id)
-
+	//log.Infof("message with id %d created", id)
 	return id, nil
 }

@@ -8,7 +8,7 @@ import (
 func (s *Service) UpdateTask(task *model.Task) (bool, error) {
 	_, err := s.repo.UpdateTask(task)
 	if err != nil {
-		log.Errorf("failed to create message: %w", err)
+		log.Errorf("failed to update task: %w", err)
 		return false, err
 	}
 	return true, nil

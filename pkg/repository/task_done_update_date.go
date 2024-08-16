@@ -7,7 +7,7 @@ import (
 	"github.com/kahuri1/final-proect/pkg/model"
 )
 
-func (r *Repository) TaskDone(task model.Task) (bool, error) {
+func (r *Repository) TaskDone(task *model.Task) (bool, error) {
 	var existingTask model.Task
 	err := r.db.Get(&existingTask, "SELECT * FROM scheduler WHERE id=$1", task.Id)
 	if err != nil {
