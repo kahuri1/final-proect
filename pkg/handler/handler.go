@@ -27,24 +27,31 @@ func (h *Handler) InitRoutes() *gin.Engine {
 	webDir := viper.GetString("dir")
 
 	router := gin.New()
-
+	router.POST("/api/signin", h.Auth)
 	router.GET("/api/nextdate", h.NextDateHandler)
-	router.GET("/api/tasks", h.GetTasks)
-	taskGroup := router.Group("/api/task")
+	api := router.Group("/api")
+	api.Use(AuthMiddleware())
 	{
-		taskGroup.POST("", h.CreateTask)
-		taskGroup.GET("", h.GetTaskID)
-		taskGroup.PUT("", h.UpdateTask)
-		taskGroup.POST("/done", h.TaskDone)
-		taskGroup.DELETE("/done/", h.DeleteTask)
-		taskGroup.DELETE("", h.DeleteTask)
+		api.GET("/tasks", h.GetTasks)
+		taskGroup := api.Group("/task")
+		{
+			taskGroup.POST("", h.CreateTask)
+			taskGroup.GET("", h.GetTaskID)
+			taskGroup.PUT("", h.UpdateTask)
+			taskGroup.POST("/done", h.TaskDone)
+			taskGroup.DELETE("/", h.DeleteTask)
+		}
 	}
 	//Обработка статических файлов
+	router.Static("/web", webDir)
 	router.Static("/js", webDir+"/js")                       // Обслуживание JS файлов
 	router.Static("/css", webDir+"/css")                     // Обслуживание CSS файлов
 	router.StaticFile("/favicon.ico", webDir+"/favicon.ico") // Обслуживание index.html по корневому пути
+	//router.Static("/web", webDir)
+	router.StaticFile("/login.html", webDir+"/login.html")
 	router.NoRoute(func(c *gin.Context) {
 		c.File(webDir + "/index.html")
 	})
+
 	return router
 }
